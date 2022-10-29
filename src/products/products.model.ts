@@ -1,8 +1,16 @@
-export class Product {
-  constructor(
-    public id: string,
-    public title: string,
-    public description: string,
-    public price: number,
-  ) {}
+import * as mongoose from 'mongoose';
+
+// This is the schema representing how the mongoose model should look like.
+export const ProductSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  price: { type: Number, required: true },
+});
+
+export interface Product {
+  // we cannot instantiate interfaces.
+  id: string;
+  title: string;
+  description: string;
+  price: number;
 }

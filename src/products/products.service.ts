@@ -1,15 +1,25 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose'; // this is a generic type
 import { Product } from './products.model';
 
 @Injectable()
 export class ProductsService {
   private products: Product[] = [];
 
-  insertProduct(title: string, description: string, price: number) {
-    const prodId = Math.random().toString();
-    const newProduct = new Product(prodId, title, description, price);
-    this.products.push(newProduct);
-    return prodId;
+  constructor(
+    // the productModel is being created by mongoose.
+    @InjectModel('Product') private readonly productModel: Model<Product>, // this simply tells nest js that you want to inject mongoose model.
+  ) {}
+
+  async insertProduct(title: string, description: string, price: number) {
+    // const prodId = Math.random().toString();
+    const newProduct = await this.productModel.create({
+      title: title,
+      description: description,
+      price: price,
+    });
+    return newProduct.id as string;
   }
 
   getProducts() {
