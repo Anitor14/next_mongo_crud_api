@@ -7,7 +7,8 @@ export const ProductSchema = new mongoose.Schema({
   price: { type: Number, required: true },
 });
 
-export interface Product {
+export interface Product extends mongoose.Document {
+  //mongoose.Document is an interface produced by mongoose.
   // we cannot instantiate interfaces.
   id: string;
   title: string;
